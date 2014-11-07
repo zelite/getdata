@@ -31,6 +31,7 @@ readAndMerge <- function(folder){
 all.data <- lapply(folders, readAndMerge)
 
 #preparing the names for the columns of the data.frames
+#make.names ensures the names are proper R variables and are unique (important for processing with dplyr)
 namesForCols <- c("subject", 
                   make.names(names = features[[1]], unique = TRUE),
                   "activity", "set") 
@@ -44,6 +45,10 @@ all.data <- rbind_all( all.data)
 #Now we can start manipulating our joint df
 
 #lets select the right cols
+#1. select cols with mean or std in the name
+#2. convert the activities to factors with proper labels
+#3. Convert to a long format using 'gather' from package tidyr
+#4. Clean up a bit of the variable names, by removing repeated dots.
 filt.data <- select(all.data, subject, activity, set, matches("mean|std")) %>% 
   mutate(activity=factor(x = activity, levels = activities$V1, labels = activities$V2)) %>%
   gather(key = "variable", value = "value", -subject, -activity, -set) %>%
