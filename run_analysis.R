@@ -3,7 +3,8 @@
 
 #libraries needed
 library(dplyr)
-#library(stringr)
+library(tidyr)
+library(stringr)
 
 folders <- paste0("./rawdata/", c("test", "train"))
 
@@ -44,5 +45,14 @@ all.data <- rbind_all( all.data)
 
 #lets select the right cols
 filt.data <- select(all.data, subject, activity, set, matches("mean|std")) %>% 
-  mutate(activity=factor(x = activity, levels = activities$V1, labels = activities$V2))
+  mutate(activity=factor(x = activity, levels = activities$V1, labels = activities$V2)) %>%
+  gather(key = "variable", value = "value", -subject, -activity, -set) %>%
+  mutate(variable = str_replace_all(string = variable, 
+                                    pattern = "\\.+", 
+                                    replacement = ".")
+         ) %>%
+  mutate(variable = str_replace(string = variable, 
+                                pattern = "\\.$", 
+                                replacement = "")
+         )
 
