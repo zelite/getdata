@@ -23,3 +23,7 @@ Specifically, these are the instructions:
 #run_analysis script
 
 On this repository you will find a script called `run_analysis.R` which reads the data from the folder `UCL HAR Dataset`, cleans it up and writes a tidy dataset to the file `tidyData.txt`. The script assumes the folder is present in the working directory and that the directory structure matches the one provided in original zip file.
+
+Check the [run_analysis.R](run_analysis.R) file to see how the data is processed. The comments should help know what is done at each step.
+
+Check the [CodeBook.md](Codebook.md) file for explanation on the variable names, meaning and how they are summarized.
