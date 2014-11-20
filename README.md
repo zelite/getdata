@@ -1,3 +1,6 @@
+"Getting and Cleaning Data"
+===
+
 This is my project for the "Getting and Cleaning Data" Coursera course.
 
 
@@ -16,3 +19,7 @@ Specifically, these are the instructions:
 > 3. Uses descriptive activity names to name the activities in the data set
 > 4. Appropriately labels the data set with descriptive variable names. 
 > 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+
+#run_analysis script
+
+On this repository you will find a script called `run_analysis.R` which reads the data from the folder `UCL HAR Dataset`, cleans it up and writes a tidy dataset to the file `tidyData.txt`. The script assumes the folder is present in the working directory and that the directory structure matches the one provided in original zip file.
