@@ -6,13 +6,8 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 
-folders <- paste0("./UCI HAR Dataset/", c("test", "train"))
 
-features <- read.table("./UCI HAR Dataset/features.txt", row.names = 1, 
-                       stringsAsFactors = FALSE)
-
-activities <- read.table(file = "UCI HAR Dataset/activity_labels.txt")
-
+#Helper functions------------------------------------------------------
 readAndMerge <- function(folder){
   #this function reads the .txt files in a folder and merges them
   #in this way we dont need to repeat the code for both the test 
@@ -27,16 +22,10 @@ readAndMerge <- function(folder){
   result
 }
 
-#reading both test and train datasets; the result is a list
-all.data <- lapply(folders, readAndMerge)
-
-#preparing the names for the columns of the data.frames
-#make.names ensures the names are proper R variables and are unique (important for processing with dplyr)
-namesForCols <- c("subject", 
-                  make.names(names = features[[1]], unique = TRUE),
-                  "activity", "set") 
-
-#function to clean up a bit more the names. Will be used later on the final stages of the subsetting
+#function to clean a bit more the names. Will be used later on the final
+#stages of the subsetting the function removes repeated dots, removes dots from
+#end of the variable, replaces f and t from the start of a variable name with
+#Frequency and Time, and replaces Acc and Gyro by Accelerometer and Gyroscope
 cleanNamesMore <- function(name){
   patterns <- c( "\\.+" , "\\.$" , "^f" , "^t","Acc","Gyro" ) #first two matches repeated dots and dots in end of name
   replacements <- c(".", "",  "Frequency", "Time", "Accelerometer", "Gyroscope")
@@ -48,6 +37,28 @@ cleanNamesMore <- function(name){
   new.name  
 }
 
+#Reading of data---------------------------------
+
+folders <- paste0("./UCI HAR Dataset/", c("test", "train"))
+
+features <- read.table("./UCI HAR Dataset/features.txt", row.names = 1, 
+                       stringsAsFactors = FALSE)
+
+activities <- read.table(file = "UCI HAR Dataset/activity_labels.txt")
+
+
+
+#reading both test and train datasets; the result is a list
+all.data <- lapply(folders, readAndMerge)
+
+#preparing the names for the columns of the data.frames
+#make.names ensures the names are proper R variables and are unique (important for processing with dplyr)
+namesForCols <- c("subject", 
+                  make.names(names = features[[1]], unique = TRUE),
+                  "activity", "set") 
+
+
+
 
 #change the names in the data.frames in the list before binding them
 all.data <- lapply(all.data, function(x) {names(x) <- namesForCols; x})
@@ -55,6 +66,7 @@ all.data <- lapply(all.data, function(x) {names(x) <- namesForCols; x})
 #binding the dfs togethers
 all.data <- rbind_all( all.data)
 
+#Cleaning and Processing------------------------------
 #Now we can start manipulating our joint df
 
 #lets select the right cols
