@@ -1,17 +1,17 @@
 # Getting and Cleaning Data - Project - by Zelite
-# Raw data has been unzipped and is in folder rawdata
+# Raw data has been unzipped on the working directory
 
 #libraries needed
 library(dplyr)
 library(tidyr)
 library(stringr)
 
-folders <- paste0("./rawdata/", c("test", "train"))
+folders <- paste0("./UCI HAR Dataset/", c("test", "train"))
 
-features <- read.table("./rawdata/features.txt", row.names = 1, 
+features <- read.table("./UCI HAR Dataset/features.txt", row.names = 1, 
                        stringsAsFactors = FALSE)
 
-activities <- read.table(file = "rawdata/activity_labels.txt")
+activities <- read.table(file = "UCI HAR Dataset/activity_labels.txt")
 
 readAndMerge <- function(folder){
   #this function reads the .txt files in a folder and merges them
@@ -36,6 +36,19 @@ namesForCols <- c("subject",
                   make.names(names = features[[1]], unique = TRUE),
                   "activity", "set") 
 
+#function to clean up a bit more the names. Will be used later on the final stages of the subsetting
+cleanNamesMore <- function(name){
+  patterns <- c( "\\.+" , "\\.$" , "^f" , "^t","Acc","Gyro" ) #first two matches repeated dots and dots in end of name
+  replacements <- c(".", "",  "Frequency", "Time", "Accelerometer", "Gyroscope")
+  
+  new.name <- name
+  for(i in seq_along(patterns)){
+    new.name <- str_replace_all(string = new.name, pattern = patterns[[i]], replacements[[i]])
+  }
+  new.name  
+}
+
+
 #change the names in the data.frames in the list before binding them
 all.data <- lapply(all.data, function(x) {names(x) <- namesForCols; x})
 
@@ -45,19 +58,17 @@ all.data <- rbind_all( all.data)
 #Now we can start manipulating our joint df
 
 #lets select the right cols
-#1. select cols with mean or std in the name
+#1. select cols of mean, std and meanFreq. There are other features with "mean" in the name
+#such as angle(X,gravityMean), but I will not consider them. In my interpretation, this is a function
+#applied to a a mean, which does not seem to be what is intended.
 #2. convert the activities to factors with proper labels
 #3. Convert to a long format using 'gather' from package tidyr
 #4. Clean up a bit of the variable names, by removing repeated dots.
-filt.data <- select(all.data, subject, activity, set, matches("mean|std")) %>% 
+#5. Make names more descriptive f: frequency t:time Acc:Accelerometer Gyro: Gyroscope
+filt.data <- select(all.data, subject, activity, set, matches("mean|std|meanFreq", ignore.case = FALSE)) %>% 
   mutate(activity=factor(x = activity, levels = activities$V1, labels = activities$V2)) %>%
   gather(key = "variable", value = "value", -subject, -activity, -set) %>%
-  mutate(variable = str_replace_all(string = variable, 
-                                    pattern = "\\.+", 
-                                    replacement = ".")
-         ) %>%
-  mutate(variable = str_replace(string = variable, 
-                                pattern = "\\.$", 
-                                replacement = "")
-         )
+  mutate(variable = cleanNamesMore(variable)) %>%
+  group_by(subject, activity, variable) %>% summarise(average=mean(value))
 
+write.table(filt.data, file = "tidyData.txt", row.names = FALSE)
