@@ -75,12 +75,13 @@ all.data <- rbind_all( all.data)
 #applied to a a mean, which does not seem to be what is intended.
 #2. convert the activities to factors with proper labels
 #3. Convert to a long format using 'gather' from package tidyr
-#4. Clean up a bit of the variable names, by removing repeated dots.
-#5. Make names more descriptive f: frequency t:time Acc:Accelerometer Gyro: Gyroscope
+#4. applies the cleanNamesMore function to the variable names
+#5. summarises the variables by taking the average for each subject, activity and original variable.
 filt.data <- select(all.data, subject, activity, set, matches("mean|std|meanFreq", ignore.case = FALSE)) %>% 
   mutate(activity=factor(x = activity, levels = activities$V1, labels = activities$V2)) %>%
   gather(key = "variable", value = "value", -subject, -activity, -set) %>%
   mutate(variable = cleanNamesMore(variable)) %>%
   group_by(subject, activity, variable) %>% summarise(average=mean(value))
 
+#Writes the resulting data set into the file "tidyData.txt" that will appear in the working directory
 write.table(filt.data, file = "tidyData.txt", row.names = FALSE)
