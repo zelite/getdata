@@ -14,7 +14,23 @@ This tidy version is organized in the following way:
 
 * From the original dataset, only variables corresponding to applying a mean value ( mean() ), standard deviation ( std() ) and weighted average of the frequency components ( meanFreq() ) were taken. 
 * This tidy dataset is a _long_ dataset with the following columns: ``r names(tidyData)``.
-    + The `subject` column is identifies the volunteers with a number, going from `r min(tidyData$subject)` to `r max(tidyData$subject)`.
+    + The `subject` column identifies the volunteers with a number, going from `r min(tidyData$subject)` to `r max(tidyData$subject)`.
     + The `activity` column describes the activity being performed by the subject. It can have the following values: `r levels(tidyData$activity)`.
     + The `variable` column describes the variable recorded. Check the next section for more details about the variables.
     + The `average` column has the average value of the `variable` of the `subject` performing the `activity`.
+    
+# Variables
+
+I tried my best to give the variables descriptive names. However, even the original data source does not do a very good job explaining the variables to someone not familiar with the application domain.
+
+To identify the meaning of the variable name refer to the following list:
+  * *Time|Frequency*: identifies if the variable is measured in the time domain or frequency domain.
+  * *Body|Gravity*: body refers to acceleration or angular moment of the body. Gravity refers to the separated signal of the gravity acceleration.
+  * *Accelerometer|Gyroscope*: identifies if the signal comes from the accelerometer or gyroscope of the smartphone.
+  * *Jerk|Mag*: identifies if the signal is a Jerk signal, or represents the Magnitude of the signal.
+  * *mean|std|meanFreq*: identify that the number is the average, standard deviation or mean frequency of the variable.
+  * *X|Y|Z*: identifies the axis in which the measurement is made.
+  
+I hope this is enough to find your way around the dataset.
+Thanks for taking your time to have a look at my project.
+
