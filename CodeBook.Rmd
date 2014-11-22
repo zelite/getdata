@@ -1,6 +1,8 @@
 Codebook
 ===
-
+```{r, echo=FALSE}
+tidyData <- read.table(file = "tidyData.txt", header=TRUE)
+```
 
 This dataset records data from the accelerometer and gyroscope of a smartphone attached to volunteers while performing several activities. The acitivities include WALKING, WALKING UPSTAIRS, WALKING DOWNSTAIRS, SITTING, STANDING and LAYING.
 
@@ -11,8 +13,8 @@ The dataset presented on this repository is a _tidy_ version which summarizes th
 This tidy version is organized in the following way:
 
 * From the original dataset, only variables corresponding to applying a mean value ( mean() ), standard deviation ( std() ) and weighted average of the frequency components ( meanFreq() ) were taken. 
-* This tidy dataset is a _long_ dataset with the following columns: `subject, activity, variable, average`.
-    + The `subject` column is identifies the volunteers with a number, going from 1 to 30.
-    + The `activity` column describes the activity being performed by the subject. It can have the following values: LAYING, SITTING, STANDING, WALKING, WALKING_DOWNSTAIRS, WALKING_UPSTAIRS.
+* This tidy dataset is a _long_ dataset with the following columns: ``r names(tidyData)``.
+    + The `subject` column is identifies the volunteers with a number, going from `r min(tidyData$subject)` to `r max(tidyData$subject)`.
+    + The `activity` column describes the activity being performed by the subject. It can have the following values: `r levels(tidyData$activity)`.
     + The `variable` column describes the variable recorded. Check the next section for more details about the variables.
     + The `average` column has the average value of the `variable` of the `subject` performing the `activity`.
