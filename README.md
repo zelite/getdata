@@ -26,4 +26,4 @@ On this repository you will find a script called `run_analysis.R` which reads th
 
 Check the [run_analysis.R](run_analysis.R) file to see how the data is processed. The comments should help know what is done at each step.
 
-Check the [CodeBook.md](Codebook.md) file for explanation on the variable names, meaning and how they are summarized.
+Check the [CodeBook.md](CodeBook.md) file for explanation on the variable names, meaning and how they are summarized.
