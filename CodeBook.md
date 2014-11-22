@@ -2,7 +2,7 @@ Codebook
 ===
 
 
-This dataset records data from the accelerometer and gyroscope of a smartphone attached to volunteers while performing several activities. The acitivities include WALKING, WALKING UPSTAIRS, WALKING DOWNSTAIRS, SITTING, STANDING and LAYING.
+This dataset records data from the accelerometer and gyroscope of a smartphone attached to volunteers while performing several activities. The activities include WALKING, WALKING UPSTAIRS, WALKING DOWNSTAIRS, SITTING, STANDING and LAYING.
 
 You can find more information about the original experiments and original data set here: https://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 
@@ -22,12 +22,12 @@ This tidy version is organized in the following way:
 I tried my best to give the variables descriptive names. However, even the original data source does not do a very good job explaining the variables to someone not familiar with the application domain.
 
 To identify the meaning of the variable name refer to the following list:
-  * *Time|Frequency*: identifies if the variable is measured in the time domain or frequency domain.
-  * *Body|Gravity*: body refers to acceleration or angular moment of the body. Gravity refers to the separated signal of the gravity acceleration.
-  * *Accelerometer|Gyroscope*: identifies if the signal comes from the accelerometer or gyroscope of the smartphone.
-  * *Jerk|Mag*: identifies if the signal is a Jerk signal, or represents the Magnitude of the signal.
-  * *mean|std|meanFreq*: identify that the number is the average, standard deviation or mean frequency of the variable.
-  * *X|Y|Z*: identifies the axis in which the measurement is made.
+  * **Time|Frequency**: identifies if the variable is measured in the time domain or frequency domain.
+  * **Body|Gravity**: body refers to acceleration or angular moment of the body. Gravity refers to the separated signal of the gravity acceleration.
+  * **Accelerometer|Gyroscope**: identifies if the signal comes from the accelerometer or gyroscope of the smartphone.
+  * **Jerk|Mag**: identifies if the signal is a Jerk signal, or represents the Magnitude of the signal.
+  * **mean|std|meanFreq**: identify that the number is the average, standard deviation or mean frequency of the variable.
+  * **X|Y|Z**: identifies the axis in which the measurement is made.
   
 I hope this is enough to find your way around the dataset.
 Thanks for taking your time to have a look at my project.
